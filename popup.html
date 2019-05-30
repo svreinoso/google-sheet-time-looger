@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href="libs/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <script src="libs/jquery.min.js"></script>
+    <script src="libs/jquery.validate.min.js"></script>
+    <script src="libs/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+    <div class="jumbotron">
+        <ul class="nav nav-tabs nav-fill">
+            <li class="nav-item">
+                <a class="nav-link active" data-toggle="tab" href="#tab1">Log Time</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab2">Sheet Settings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="tab" href="#tab3">Authorize</a>
+            </li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="tab1" class="tab-pane active">
+                <div id="logTimeContainer">
+                    <form id="logTimeForm">
+                        <div class="form-group">
+                            <label for="issue">Issue</label>
+                            <input type="text" id="issue" name="issue" class="form-control" placeholder="Issue"  required>
+                        </div>
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="2" placeholder="Description"  required></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Type</label>
+                            <select class="form-control" id="type" name="type" required>
+                                <option value="">Select</option>
+                                <option value="Development">Development</option>
+                                <option value="QA">QA</option>
+                                <option value="Code Review">Code Review</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="date">Date</label>
+                            <input type="date" id="date" name="date" class="form-control" placeholder="Date" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="worked">Worked</label>
+                            <input type="number" id="worked" name="worked" class="form-control" placeholder="Worked" required>
+                        </div>
+                        <div class="form-group">
+                            <p class="btn btn-primary" id="logTimeFormSubmit">Save</p>
+                            <p class="btn btn-primary" id="takeTabInfo">Take from tab</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div id="tab2" class="tab-pane">
+                <div id="getSheetData">
+                    <form id="sheedDataForm">
+                        <h2>Add sheet data</h2>
+
+                        <div class="form-group row">
+                            <label for="fullName" class="col-sm-2 col-form-label">Full Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="fullName" name="fullName"
+                                    placeholder="Full Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="tabName" class="col-sm-2 col-form-label">Tab Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="tabName" name="tabName"
+                                    placeholder="Tab Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="id" class="col-sm-2 col-form-label">Id</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="id" name="id" placeholder="Id" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <div class="col-sm-10">
+                                <p class="btn btn-primary" id="sheedDataFormSubmit">Save</p>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+            <div id="tab3" class="tab-pane">
+                <div id="authContainer">
+                    <button class="btn btn-primary" id="authorizeBtn">Authorize</button>
+                    <div id="alreadyAuthorized">
+                        <h2>Already authorized</h2>
+                        <button class="btn btn-primary" id="logoutBtn">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/httpServises.js"></script>
+    <script src="js/popup.js"></script>
+</body>
+
+</html>

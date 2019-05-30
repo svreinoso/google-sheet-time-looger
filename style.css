@@ -1,0 +1,21 @@
+body{
+    width: 500px;
+}
+.jumbotron {
+    margin: 0;
+    height: 100%;
+}
+.nav-tabs {
+    margin-bottom: 15px;
+}
+.form-group .error {
+    color: red;
+}
+#authorizeBtn {
+    text-align: center;
+}
+.disabled {
+    pointer-events: none;
+    opacity: 0.7;
+    cursor: not-allowed;
+}
