@@ -126,6 +126,14 @@ function loadAuthorizeTab() {
     }
 }
 
+function loadHistoryTab() {
+    httpServices.get((response) => {
+        console.log(response);
+    }, (error) => {
+        console.log(error);
+    });
+}
+
 $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
     const id = e.target.hash;
     switch (id) {
@@ -133,9 +141,12 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
             loadLogTimeTab();
             break;
         case '#tab2':
-            loadSheetDataTab();
+            loadHistoryTab();
             break;
         case '#tab3':
+            loadSheetDataTab();
+            break;
+        case '#tab4':
             loadAuthorizeTab();
             break;
     }
