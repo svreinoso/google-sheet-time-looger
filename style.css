@@ -19,3 +19,39 @@ body{
     opacity: 0.7;
     cursor: not-allowed;
 }
+#selectedWeekActions {
+    display: flex;
+    text-align: center;
+    margin: auto;
+}
+#selectedWeekActions #selectedWeekText {
+    margin: auto;
+}
+#logForDays .day-logs .current-day{
+    width: 60px;
+    border-right: 1px solid gray;
+}
+#logForDays .day-logs .log-actions span:hover{
+    font-size: 20px;
+    background-color: blue;
+}
+#logForDays .day-logs .log-actions span {
+    cursor: pointer;
+}
+#logForDays .day-logs .log-actions {
+    width: 60px;
+    text-align: right;
+}
+#logForDays .day-logs .log-row p{
+    border-bottom: 1px solid gray;
+    margin-bottom: 5px;
+    width: 341px;
+}
+#logForDays .day-logs .log-row{
+    display: flex;
+}
+#logForDays .day-logs{
+    display: flex;
+    padding: 3px;
+    border: 1px solid;
+}

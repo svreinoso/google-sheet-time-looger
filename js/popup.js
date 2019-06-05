@@ -3,6 +3,7 @@ let logoutBtn = document.getElementById('logoutBtn');
 let sheedDataFormSubmit = document.getElementById('sheedDataFormSubmit');
 let logTimeFormSubmit = document.getElementById('logTimeFormSubmit');
 let takeTabInfo = document.getElementById('takeTabInfo');
+let selectedWeek, allTimes;
 
 takeTabInfo.onclick = () => {
     getTabInfo();
@@ -77,7 +78,6 @@ authorizeBtn.onclick = function (element) {
 
 function getToken(token) {
     setCookie('token', token, 1 / 24);
-    alert('Authorized');
     location.reload();
 }
 
@@ -126,11 +126,86 @@ function loadAuthorizeTab() {
     }
 }
 
+function getSelectedWeek (){
+    const startOfWeek = moment().startOf('isoWeek');
+    const endOfWeek = moment().endOf('isoWeek');
+
+    let days = [];
+    let day = startOfWeek;
+
+    while (day <= endOfWeek) {
+        days.push(day.toDate());
+        day = day.clone().add(1, 'd');
+    }
+
+    selectedWeek = {
+        startDay: startOfWeek,
+        endDay: endOfWeek,
+        days: days
+    };
+}
+
+function deleteLog(selectedRowLog) {
+    if (!confirm('Are you sure you want to delete this log?')) return;
+    let index = allTimes.indexOf(selectedRowLog);
+    console.log(index);
+}
+
+function showDaysTimes () {
+    selectedWeek.days.forEach(day => {
+        let logs = allTimes.filter((value, index) => moment(day).format('YYYY-MM-DD') === value[5]);
+        let dayLog = 
+        `<div class="day-logs">
+            <div class="current-day"><p>${moment(day).format('ddd DD')}</p></div>
+            <div>`;
+        logs.forEach((row, rowIndex) => {
+            dayLog += 
+            `<div class="log-row">
+                <p>
+                    Ticket: <b>${row[1]},</b> 
+                    Description: <b>${row[2]},</b> 
+                    Time: <b>${row[3]},</b>
+                    Type: <b>${row[4]}</b>
+                </p>
+                <div class="log-actions">
+                    <span data-type="edit" data-date="${moment(day).format('YYYY-MM-DD')}" data-index="${rowIndex}">&#9997;</span>
+                    <span data-type="delete" data-date="${moment(day).format('YYYY-MM-DD')}" data-index="${rowIndex}">&#10060;</span>
+                </div>
+            </div>`;
+        });
+        dayLog +=
+        `</div></div>`;
+        let div = document.createElement('div');
+        div.innerHTML = dayLog;
+        document.getElementById('logForDays').append(div);
+        document.querySelectorAll('.log-actions span').forEach((element) => {
+            let dataset = element.dataset;
+            element.onclick = () => {
+                let seletedRowLogs = allTimes.filter((value, index) => value[5] === dataset.date);
+                let selectedRowLog = seletedRowLogs[dataset.index];
+                if (dataset.type === 'delete') {
+                    deleteLog(selectedRowLog);
+                    return;
+                };
+                $('#logTimeForm #date').val(selectedRowLog[5]);
+                $('#logTimeForm #type').val(selectedRowLog[4]);
+                $('#logTimeForm #worked').val(selectedRowLog[3]);
+                $('#logTimeForm #description').val(selectedRowLog[2]);
+                $('#logTimeForm #issue').val(selectedRowLog[1]);
+                $('[href="#tab1"]').tab('show');
+            };
+        });
+    });
+}
+
 function loadHistoryTab() {
+    getSelectedWeek();
+    let selectedWeekValue = selectedWeek.startDay.format('DD MMM YYYY') + ' - ' + selectedWeek.endDay.format('DD MMM YYYY');
+    document.getElementById('selectedWeekText').innerText = selectedWeekValue;
+
     httpServices.get((response) => {
-        console.log(response);
-    }, (error) => {
-        console.log(error);
+        allTimes = response.values;
+        showDaysTimes();
     });
 }
 
@@ -155,6 +230,7 @@ $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 function init() {
     document.getElementById('date').valueAsDate = new Date();
     getTabInfo();
+    if (!getCookie('token')) chrome.identity.getAuthToken({ 'interactive': true }, getToken);
 }
 
 init();

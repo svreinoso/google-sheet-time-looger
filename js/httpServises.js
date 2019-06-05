@@ -3,7 +3,7 @@ httpServices.defaultUrl = function (path) {
     path = path || '';
     var sheet = JSON.parse(localStorage.getItem('sheetData'));
     if (!sheet) return null;
-    var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + sheet.id + '/values/' + sheet.tabName + '!A1:F1' + path;
+    var url = 'https://sheets.googleapis.com/v4/spreadsheets/' + sheet.id + '/values/' + sheet.tabName + path;
     return url;
 }
 
@@ -52,7 +52,7 @@ httpServices.get = function (successCallback, errorCallback) {
             handleError(xmlHttp, errorCallback);
         }
     };
-    var url = httpServices.defaultUrl();
+    var url = httpServices.defaultUrl('!A:F');
     if (!url) {
         handleNotSheetData();
         return;
@@ -77,7 +77,7 @@ httpServices.post = function (jsonData, successCallback, errorCallback) {
             handleError(xmlHttp, errorCallback);
         }
     };
-    var url = httpServices.defaultUrl(':append?valueInputOption=USER_ENTERED');
+    var url = httpServices.defaultUrl('!A1:F1:append?valueInputOption=USER_ENTERED');
     if (!url) {
         handleNotSheetData();
         return;
